@@ -2,6 +2,7 @@ from typing import TypedDict, Optional
 from langgraph.graph import StateGraph, END
 from agents.bantai_core.observer import ObserverAgent
 from agents.bantai_core.architect import ArchitectAgent
+from tools.validator import validate_terraform
 
 class BantAIState(TypedDict):
     raw_log: str
@@ -11,8 +12,9 @@ class BantAIState(TypedDict):
     is_valid: bool
     iteration_count: int
 
+
 def observer_node(state: BantAIState):
-    print("🔍 [Node: Observer] Scanning logs...")
+    print("[Node: Observer] Scanning logs...")
     agent = ObserverAgent()
     analysis = agent.analyze_log(state['raw_log'])
     
@@ -21,13 +23,49 @@ def observer_node(state: BantAIState):
         "iteration_count": state.get("iteration_count", 0) + 1
     }
 
+
 def architect_node(state: BantAIState):
-    print("🏗️ [Node: Architect] Designing security fix...")
+    print("[Node: Architect] Designing security fix...")
     agent = ArchitectAgent()
     # The architect needs the threat analysis from the state
     fix = agent.generate_remediation(state['threat_analysis'])
     
     return {"remediation_code": fix}
+
+
+def validator_node(state: BantAIState):
+    print("[Node: Validator] Running 'terraform validate' on proposed fix...")
+    
+    is_valid, message = validate_terraform(state['remediation_code'])
+    
+    if not is_valid:
+        print(f"❌ Validation Failed: {message}")
+    else:
+        print("✅ Validation Passed!")
+
+    return {
+        "is_valid": is_valid,
+        "validation_errors": message if not is_valid else None
+    }
+
+
+def check_validation(state: BantAIState):
+    """
+    The Decision Point:
+    - Pass -> Move to END
+    - Fail -> Route back to 'architect' for a rewrite
+    """
+    if state["is_valid"]:
+        print("🟢 [Graph] Validation Passed. Proceeding to completion.")
+        return "pass"
+    
+    if state["iteration_count"] >= 3:
+        print("🔴 [Graph] Max retries reached. Stopping to prevent infinite loop.")
+        return "fail"
+    
+    print(f"🔄 [Graph] Validation Failed. Routing back to Architect (Attempt {state['iteration_count']}/3)")
+    return "retry"
+
 
 # Logic Gate (Router)
 def should_remediate(state: BantAIState):
@@ -41,14 +79,26 @@ def should_remediate(state: BantAIState):
 workflow = StateGraph(BantAIState)
 workflow.add_node("observer", observer_node)
 workflow.add_node("architect", architect_node)
+workflow.add_node("validator", validator_node)
 
 workflow.set_entry_point("observer")
 
 # Add conditional edges based on the should_remediate function
 workflow.add_conditional_edges("observer", should_remediate, {'remediate': 'architect', 'stop': END})
 
-# Connect architect to END
-workflow.add_edge("architect", END)
+# Architect -> Validator
+workflow.add_edge("architect", "validator")
+
+# Validator Loop (The Self-Correction)
+workflow.add_conditional_edges(
+    "validator",
+    check_validation,
+    {
+        "pass": END,
+        "retry": "architect", # Loops back for a fix
+        "fail": END
+    }
+)
 
 # Compile the graph
 app = workflow.compile()

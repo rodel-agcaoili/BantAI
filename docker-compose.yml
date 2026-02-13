@@ -18,7 +18,7 @@ services:
       - PYTHONPATH=/app
     volumes:
       - .:/app
-    command: python agents/bantai_core/observer.python
+    command: python agents/bantai_core/observer.py
 
 volumes:
   ollama_storage:

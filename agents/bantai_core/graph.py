@@ -60,7 +60,7 @@ if __name__ == "__main__":
         "iteration_count": 0
     }
     
-    print("aaaLaunching BantAI Autonomous Graph...")
+    print("Launching BantAI Autonomous Graph...")
     for output in app.stream(input_state):
         # This streams the output of each node as it finishes
         for key, value in output.items():

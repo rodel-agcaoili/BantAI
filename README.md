@@ -40,4 +40,21 @@ graph TD
     style Architect fill:#bbf,stroke:#333
     style Validator fill:#ffb,stroke:#333
     style Ollama fill:#dfd,stroke:#333
-    
+
+🚀 Key Features
+Privacy-First AI: Fully integrated with Ollama for 100% local inference. Ensures data sovereignty for sensitive security telemetry.
+
+Stateful Agentic Orchestration: Built on LangGraph to handle complex, non-linear decision-making and agent memory.
+
+Automated Remediation: Transitions from simple alerting to active defense by generating production-ready Terraform (HCL) code.
+
+Self-Healing Logic: Features a deterministic validation loop where proposed fixes are checked for syntax and logic before deployment.
+
+AIOps Ready: Fully containerized with Docker, designed for seamless migration to Kubernetes (k8s) environments.
+
+👨‍💻 About the Author
+Rodel is a Senior Cloud Engineer and AI Researcher focused on the intersection of Global Information Security and Autonomous Systems.
+
+Professional: Sr. Cloud Engineer at Sony's Global Information Security Division.
+
+Academic: Researching Artificial Intelligence through Georgia Tech's OMSCS program.

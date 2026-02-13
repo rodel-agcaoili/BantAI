@@ -1,0 +1,9 @@
+2026-02-12 08:00:01 - INFO - User: rodel - Action: login_success - IP: 10.0.0.15
+2026-02-12 08:15:22 - INFO - User: system_cron - Action: backup_started - IP: 127.0.0.1
+2026-02-12 09:10:45 - WARN - User: admin - Action: login_failed - IP: 192.168.5.105
+2026-02-12 09:10:47 - WARN - User: admin - Action: login_failed - IP: 192.168.5.105
+2026-02-12 09:10:49 - WARN - User: admin - Action: login_failed - IP: 192.168.5.105
+2026-02-12 09:10:51 - WARN - User: admin - Action: login_failed - IP: 192.168.5.105
+2026-02-12 09:11:05 - INFO - User: admin - Action: login_success - IP: 192.168.5.105
+2026-02-12 09:12:00 - CRIT - User: admin - Action: sudo_chmod_777_root - IP: 192.168.5.105
+2026-02-12 10:00:00 - INFO - User: j_smith - Action: logout - IP: 10.0.0.22

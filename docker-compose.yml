@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
 
   bantai-agent:
-    build:
+    build: .
     container_name: bantai-agent
     depends_on:
       - ollama

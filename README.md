@@ -99,6 +99,5 @@ docker compose run bantai-agent python -m agents.bantai_core.graph
 
 * **Professional:** Sr. Cloud Engineer at Sony's Global Information Security Division.
 * **Academic:** Researching Artificial Intelligence through Georgia Tech's OMSCS program.
-* **Web:** [rodel.cloud](https://rodel.cloud)
 
 ---

@@ -15,6 +15,7 @@ services:
       - ollama
     environment:
       - OLLAMA_HOST=http://ollama:11434
+      - PYTHONPATH=/app
     volumes:
       - .:/app
     command: python agents/bantai_core/observer.python

@@ -1,5 +1,6 @@
 # Orchestration & Logic
 langgraph>=0.0.10
+langchain-ollama>=0.1.0
 pydantic>=2.0.0
 
 # Local LLM Communication

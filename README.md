@@ -1,14 +1,14 @@
 # 🛡️ BantAI: The Autonomous Cloud Guardian
 
-**BantAI** (from the Filipino word *Bantay*, meaning guardian) is a stateful, multi-agent AI system designed to hunt and remediate cloud security threats in real-time. 
+**BantAI** (derived from the Filipino word *Bantay*, meaning sentinel or guardian) is a stateful, multi-agent AI system engineered to hunt and remediate cloud security threats autonomously. 
 
-Built as a privacy-first research project at the intersection of **AI, Cybersecurity, and AIOps**, BantAI leverages local LLMs to ensure sensitive security logs never leave the enterprise perimeter.
+Developed as a "Privacy-First" AIOps platform, BantAI leverages local Large Language Models (LLMs) to ensure that sensitive infrastructure logs and security configurations never leave the local environment, providing enterprise-grade security without third-party data exposure.
 
 ---
 
 ## 🧠 System Architecture
 
-BantAI uses **LangGraph** to orchestrate a sophisticated "Sensing-to-Remediation" workflow. Unlike linear scripts, BantAI maintains a persistent state, allowing agents to collaborate and self-correct.
+BantAI utilizes **LangGraph** to orchestrate a sophisticated "Sensing-to-Remediation" workflow. Unlike traditional linear scripts, BantAI maintains a persistent state, allowing specialized agents to collaborate, validate results, and self-correct.
 
 ```mermaid
 graph TD
@@ -42,42 +42,20 @@ graph TD
     style Ollama fill:#dfd,stroke:#333
 
 🚀 Key Features
-Privacy-First AI: Integrated with Ollama for 100% local inference. No sensitive logs are sent to 3rd-party APIs.
+Privacy-First AI: Fully integrated with Ollama for 100% local inference. Ensures data sovereignty for sensitive security telemetry.
 
-Stateful Orchestration: Built on LangGraph to manage complex, non-linear decision-making and agent memory.
+Stateful Agentic Orchestration: Built on LangGraph to handle complex, non-linear decision-making and agent memory.
 
-Automated Remediation: Moves from "Alerting" to "Acting" by generating production-ready Terraform (HCL) code.
+Automated Remediation: Transitions from simple alerting to active defense by generating production-ready Terraform (HCL) code.
 
-AIOps Ready: Containerized with Docker and built with a modular architecture for easy transition to Kubernetes.
+Self-Healing Logic: Features a deterministic validation loop where proposed fixes are checked for syntax and logic before deployment.
 
-🛠️ Technical Stack
-Language: Python 3.11
+AIOps Ready: Fully containerized with Docker, designed for seamless migration to Kubernetes (k8s) environments.
 
-AI Engine: Ollama (Llama 3 for logic, CodeLlama for HCL generation)
-
-Orchestration: LangGraph / LangChain
-
-Infrastructure: Terraform & Docker
-
-Testing: Pytest & Custom Chaos Engine
-
-🏁 Getting Started
-Clone the Repo:
-
-Bash
-git clone [https://github.com/your-username/bantai.git](https://github.com/your-username/bantai.git)
-cd bantai
-Start the Brain:
-Ensure Ollama is running, then:
-
-Bash
-docker compose up -d
-docker exec -it bantai-brain ollama pull llama3
-docker exec -it bantai-brain ollama pull codellama
-Launch the Sentinel:
-
-Bash
-docker compose run bantai-agent python -m agents.bantai_core.graph
 
 👨‍💻 About the Author
-Developed by Rodel, a Sr. Cloud Engineer and AI Researcher. This project represents a fusion of my work in Global Information Security and the Georgia Tech OMSCS program.
+Rodel is a Senior Cloud Engineer and AI Researcher focused on the intersection of Global Information Security and Autonomous Systems.
+
+Professional: Sr. Cloud Engineer at Sony's Global Information Security Division.
+
+Academic: Researching Artificial Intelligence through Georgia Tech's OMSCS program.

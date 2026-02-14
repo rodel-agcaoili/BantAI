@@ -1,3 +1,5 @@
+import re
+
 from typing import TypedDict, Optional
 from langgraph.graph import StateGraph, END
 from agents.bantai_core.observer import ObserverAgent
@@ -28,15 +30,31 @@ def architect_node(state: BantAIState):
     print("[Node: Architect] Designing security fix...")
     agent = ArchitectAgent()
     # The architect needs the threat analysis from the state
-    fix = agent.generate_remediation(state['threat_analysis'])
+    error_context = state.get("validation_errors", "")
+    fix = agent.generate_remediation(state['threat_analysis'], error_context)   
+
+    new_count = state.get("iteration_count", 0) + 1
     
-    return {"remediation_code": fix}
+    return {"remediation_code": fix, "iteration_count": new_count}
 
 
 def validator_node(state: BantAIState):
     print("[Node: Validator] Running 'terraform validate' on proposed fix...")
     
-    is_valid, message = validate_terraform(state['remediation_code'])
+    raw_code = state['remediation_code']
+    
+    # Strip out triple backticks and 'hcl' language tags
+    sanitized_code = re.sub(r'```(?:hcl)?\n?(.*?)\n?```', r'\1', raw_code, flags=re.DOTALL).strip()
+
+    # Add common variables the LLM might hallucinate
+    stubs = """
+        variable "network_acl_id" { default = "stub-id" }
+        variable "vpc_id" { default = "stub-vpc" }
+        variable "security_group_id" { default = "stub-sg" }
+    """
+    final_code_for_validation = stubs + "\n" + sanitized_code
+        
+    is_valid, message = validate_terraform(final_code_for_validation)
     
     if not is_valid:
         print(f"❌ Validation Failed: {message}")
@@ -45,6 +63,7 @@ def validator_node(state: BantAIState):
 
     return {
         "is_valid": is_valid,
+        "remediation_code": sanitized_code,
         "validation_errors": message if not is_valid else None
     }
 
